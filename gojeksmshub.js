@@ -381,6 +381,47 @@ const redeemVoucher = (sessionId, jwt, userId, uniqueId) => new Promise((resolve
         })
 });
 
+const checkVoucher = (sessionId, jwt, userId, uniqueId) => new Promise((resolve, reject) => {
+    //console.log(otpCode2, sessionId, jwt, userId, uniqueId)
+    fetch('https://api.gojekapi.com/gopoints/v3/wallet/vouchers?limit=200&page=1', {
+        method: 'POST',
+        headers: {
+            'X-Platform': 'Android',
+            'X-UniqueId': uniqueId,
+            'D1': '9A:C9:4F:37:14:82:43:AC:08:0E:69:64:80:70:69:F7:08:A5:AF:FC:A2:EA:20:1C:F8:3C:FE:6E:A1:6E:C3:CB',
+            'X-Session-ID': sessionId,
+            'Accept': 'application/json',
+            'X-AppVersion': '4.36.1',
+            'X-AppId': 'com.gojek.app',
+            'X-DeviceOS': 'Android,7.1.2',
+            'X-User-Type': 'customer',
+            'X-PhoneMake': 'samsung',
+            'X-DeviceToken': '',
+            'X-PushTokenType': 'FCM',
+            'X-PhoneModel': 'samsung,SM-N976N',
+            'User-uuid': userId,
+            'Authorization': `Bearer ${jwt}`,
+            'Accept-Language': 'en-ID',
+            'X-User-Locale': 'en_ID',
+            'X-Location': '65.9667,-18.5333',
+            'X-Location-Accuracy': '1.0',
+            'Gojek-Country-Code': 'ID',
+            'X-M1': '1:UNKNOWN,2:UNKNOWN,3:1631626880354-3511426940583375156,4:12756,5:|UNKNOWN|4,6:UNKNOWN,7:\"WiredSSID\",8:768x1184,9:,10:1,11:UNKNOWN,12:VALUE_NOT_PRESENT,13:2002,14:1631633963',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Host': 'api.gojekapi.com',
+            'Connection': 'close',
+            'Accept-Encoding': 'gzip, deflate',
+            'User-Agent': 'okhttp/3.12.13'
+        },
+    }).then(res => res.json())
+        .then(res => {
+            resolve(res)
+        })
+        .catch(err => {
+            reject(err)
+        })
+});
+
 (async () => {
 while(true){
     try {
@@ -477,6 +518,8 @@ while(true){
                         console.log(secondSetPinResult)
                         const redeemVoucherResult = await redeemVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                         console.log(redeemVoucherResult);
+                        const checkVoucherResult = await checkVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
+                        console.log(checkVoucherResult);
                         await delay(300000)
                         }else{
                             console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${firstSetPinResult.errors[0].message}`))
