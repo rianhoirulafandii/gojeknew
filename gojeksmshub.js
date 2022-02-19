@@ -382,9 +382,9 @@ const redeemVoucher = (sessionId, jwt, userId, uniqueId) => new Promise((resolve
 });
 
 const checkVoucher = (sessionId, jwt, userId, uniqueId) => new Promise((resolve, reject) => {
-    //console.log(otpCode2, sessionId, jwt, userId, uniqueId)
+    console.log(sessionId, jwt, userId, uniqueId)
     fetch('https://api.gojekapi.com/gopoints/v3/wallet/vouchers?limit=200&page=1', {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'X-Platform': 'Android',
             'X-UniqueId': uniqueId,
@@ -411,7 +411,8 @@ const checkVoucher = (sessionId, jwt, userId, uniqueId) => new Promise((resolve,
             'Host': 'api.gojekapi.com',
             'Connection': 'close',
             'Accept-Encoding': 'gzip, deflate',
-            'User-Agent': 'okhttp/3.12.13'
+            'User-Agent': 'okhttp/3.12.13',
+            'If-Modified-Since': 'Sat, 19 Feb 2022 14:20:12 GMT'
         },
     }).then(res => res.json())
         .then(res => {
@@ -485,8 +486,7 @@ while(true){
                     console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.green(`Mencoba set pin.`));
                     await delay(5000)
                     const requestGetNewJwtResult = await requestGetNewJwt(verifOtpResult.data.refresh_token, sessionId, verifOtpResult.data.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
-                    const redeemVoucherResult = await redeemVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
-                        console.log(redeemVoucherResult);
+                    
                     //await delay(300000)
                     const firstSetPinResult = await firstSetPin(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                     console.log(firstSetPinResult);
