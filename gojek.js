@@ -285,7 +285,7 @@ const firstSetPin = (sessionId, jwt, userId, uniqueId) => new Promise((resolve, 
             'Accept-Encoding': 'gzip, deflate',
             'User-Agent': 'okhttp/3.12.13'
         },
-        body: '{"pin":"124578"}'
+        body: '{"pin":"080599"}'
     }).then(res => res.json())
         .then(res => {
             resolve(res)
@@ -329,7 +329,7 @@ const secondSetPin = (otpCode2, sessionId, jwt, userId, uniqueId) => new Promise
             'Accept-Encoding': 'gzip, deflate',
             'User-Agent': 'okhttp/3.12.13'
         },
-        body: '{"pin":"124578"}'
+        body: '{"pin":"080599"}'
     }).then(res => res.json())
         .then(res => {
             resolve(res)
