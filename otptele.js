@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
 const delay = require('delay');
-const { text } = require('cheerio/lib/api/manipulation');
 
 async function ip() {
     let fet = await fetch("https://httpbin.org/ip", {
