@@ -147,8 +147,8 @@ const sendOtp = (name, email, sessionId, phoneNumber, uniqueId) => new Promise((
             'X-PhoneModel': 'samsung,SM-N976N',
             'User-uuid': '',
             'Authorization': 'Bearer',
-            'Accept-Language': 'en-null',
-            'X-User-Locale': 'en_null',
+            'Accept-Language': 'id-null',
+            'X-User-Locale': 'id_null',
             'X-Location': '0.0,0.0',
             'X-Location-Accuracy': '0.0',
             'X-M1': '1:UNKNOWN,2:UNKNOWN,3:1631626880354-3511426940583375156,4:12756,5:|UNKNOWN|4,6:UNKNOWN,7:\"WiredSSID\",8:768x1184,9:,10:1,11:UNKNOWN,12:VALUE_NOT_PRESENT,13:2002,14:1631627037',
@@ -189,8 +189,8 @@ const veryfOtp = (otp, otpToken, sessionId, uniqueId) => new Promise((resolve, r
             'X-PhoneModel': 'samsung,SM-N976N',
             'User-uuid': '',
             'Authorization': 'Bearer',
-            'Accept-Language': 'en-null',
-            'X-User-Locale': 'en_null',
+            'Accept-Language': 'id-null',
+            'X-User-Locale': 'id_null',
             'X-Location': '0.0,0.0',
             'X-Location-Accuracy': '0.0',
             'X-M1': '1:UNKNOWN,2:UNKNOWN,3:1631626880354-3511426940583375156,4:12756,5:|UNKNOWN|4,6:UNKNOWN,7:\"WiredSSID\",8:768x1184,9:,10:1,11:UNKNOWN,12:VALUE_NOT_PRESENT,13:2002,14:1631627063',
@@ -418,7 +418,7 @@ while(true){
                 let otpCode1 = "";
                 let batas = 0;
                 while(loop){
-                if(batas > 3000){
+                if(batas > 300){
                     console.log(`[ ${moment().format("HH:mm:ss")} ]`, chalk.red(` Please use another phoneNumber . . .`))
                     for(var i = 0; i < 2; i++){
                         var done = await functionChangeCancel(idOrder)
@@ -442,56 +442,59 @@ while(true){
                 const verifOtpResult = await veryfOtp(otpCode1, sendOtpResult.data.otp_token, sessionId, uniqueId);
                 if (verifOtpResult.success) {
                     console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.green(`Mencoba set pin.`));
-
+                    await delay(5000)
                     const requestGetNewJwtResult = await requestGetNewJwt(verifOtpResult.data.refresh_token, sessionId, verifOtpResult.data.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
-                    await delay(3000)
-                    const redeemVoucherResult = await redeemVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
-                    console.log(redeemVoucherResult);
-                    await delay(300000)
+                    
+                    //await delay(300000)
                     const firstSetPinResult = await firstSetPin(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                     console.log(firstSetPinResult);
-
-                    let loop1 = true;
-                    let otpCode123 = "";
-                    console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.green(`Mencoba mengambil otp kedua.`));
-                    let batas1 = 0;
-                    while(loop1){
-                        if(batas1 > 3000){
-                            console.log(`[ ${moment().format("HH:mm:ss")} ]`, chalk.red(`Please use another phoneNumber . . .`))
-                            loop1 = false;
-                            break;
-                        }
-                        otpCode123 = await functionGetOtp(idOrder)
-                        if (otpCode123.includes('STATUS_WAIT_CODE')){
-                            batas1++;
-                        } else {
-                            otpCode2 = otpCode123.split(":")[1]
-                            for(var i = 0; i < 2; i++){
-                                var done = await functionChangeStatus(idOrder)
+                    if(firstSetPinResult.errors[0].code === 'GoPay-1603') {
+                        let loop1 = true;
+                        let otpCode123 = "";
+                        console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.green(`Mencoba mengambil otp kedua.`));
+                        let batas1 = 0;
+                        while(loop1){
+                            if(batas1 > 3000){
+                                console.log(`[ ${moment().format("HH:mm:ss")} ]`, chalk.red(`Gagal Setpin. Silahkan coba ulang.`))
+                                loop1 = false;
+                                break;
                             }
-                            loop1 = false;
+                            otpCode123 = await functionGetOtp(idOrder)
+                            if (otpCode123.includes('STATUS_WAIT_CODE')){
+                                batas1++;
+                            } else {
+                                otpCode2 = otpCode123.split(":")[1]
+                                for(var i = 0; i < 2; i++){
+                                    var done = await functionChangeStatus(idOrder)
+                                }
+                                loop1 = false;
+                            }
+                        }   
+
+                        console.log(`[ ${moment().format("HH:mm:ss")} ]`, chalk.green(` Berhasil mendapatkan otp ${otpCode2}`))
+                        const secondSetPinResult = await secondSetPin(otpCode2, sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
+                        console.log(secondSetPinResult)
+                        const redeemVoucherResult = await redeemVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
+                        console.log(redeemVoucherResult);
+                        await delay(300000)
+                        }else{
+                            console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${firstSetPinResult.errors[0].message}`))
                         }
                     }
-
-                    console.log(`[ ${moment().format("HH:mm:ss")} ]`, chalk.green(` Berhasil mendapatkan otp ${otpCode2}`))
-                    const secondSetPinResult = await secondSetPin(otpCode2, sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
-                    console.log(secondSetPinResult)
-                    await delay(300000)
+                } else {
+                    console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${sendOtpResult.errors[0].message}`))
+                    for(var i = 0; i < 2; i++){
+                        var done = await functionChangeCancel(idOrder)
+                        }  
                 }
-            } else {
-                console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`Gagal ${sendOtpResult.errors[0].message}`))
-                for(var i = 0; i < 2; i++){
-                    var done = await functionChangeCancel(idOrder)
-                    }  
-            }
 
-        } else {
-            console.log('You don\'t have enough money')
+            } else {
+                console.log('You don\'t have enough money')
+            }
+        }catch(e){
+            console.log(e)
+            console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`Failed...`));
+            console.log('')
         }
-    }catch(e){
-        console.log(e)
-        console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`Failed...`));
-        console.log('')
-    }
 }
 })();
