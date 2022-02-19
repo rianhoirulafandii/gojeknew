@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
 const delay = require('delay');
+const readline = require("readline-sync");
 
 async function ip() {
     let fet = await fetch("https://httpbin.org/ip", {
@@ -484,7 +485,7 @@ while(true){
                 const verifOtpResult = await veryfOtp(otpCode1, sendOtpResult.data.otp_token, sessionId, uniqueId);
                 if (verifOtpResult.success) {
                     console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.white(`Mencoba set pin.`));
-                    await delay(300000)
+                    await delay(10000)
                     const requestGetNewJwtResult = await requestGetNewJwt(verifOtpResult.data.refresh_token, sessionId, verifOtpResult.data.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                     const firstSetPinResult = await firstSetPin(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                     if(firstSetPinResult.errors[0].code === 'GoPay-1603') {
@@ -523,7 +524,9 @@ while(true){
                         await delay(3000)
                         const checkVoucherResult = await checkVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                         console.log(checkVoucherResult);
-                        await delay(300000)
+                        //await delay(300000)
+                        readline.question(chalk.yellow(`[ ${moment().format("HH:mm:ss")} ] Press enter to continue . . .`));
+
                         }else{
                             console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${firstSetPinResult.errors[0].message}`))
                         }
