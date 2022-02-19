@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
 const delay = require('delay');
-const readline = require("readline-sync");
 
 async function ip() {
     let fet = await fetch("https://httpbin.org/ip", {
@@ -514,7 +513,6 @@ while(true){
                         console.log(`[ ${moment().format("HH:mm:ss")} ]`, chalk.white(` Berhasil mendapatkan otp ${otpCode2}`))
                         const secondSetPinResult = await secondSetPin(otpCode2, sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                         console.log(secondSetPinResult)
-                        await delay(150000)
                         const redeemVoucherResult = await redeemVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                         //console.log(redeemVoucherResult);
                         if(redeemVoucherResult.success === true) {
@@ -522,11 +520,10 @@ while(true){
                         }else{
                             console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${redeemVoucherResult.errors[0].message}`))
                         }
+                        await delay(3000)
                         const checkVoucherResult = await checkVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                         console.log(checkVoucherResult);
-                        await delay(150000)
-                        readline.question(chalk.yellow(`[ ${moment().format("HH:mm:ss")} ] Press enter to continue . . .`));
-                
+                        await delay(300000)
                         }else{
                             console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${firstSetPinResult.errors[0].message}`))
                         }
