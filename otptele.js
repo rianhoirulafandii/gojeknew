@@ -3,6 +3,7 @@ const moment = require('moment');
 const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
+const readline = require("readline-sync");
 const delay = require('delay');
 
 async function ip() {
