@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
 const delay = require('delay');
+const readline = require("readline-sync");
 
 async function ip() {
     let fet = await fetch("https://httpbin.org/ip", {
@@ -524,6 +525,8 @@ while(true){
                         const checkVoucherResult = await checkVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                         console.log(checkVoucherResult);
                         await delay(150000)
+                        readline.question(chalk.yellow(`[ ${moment().format("HH:mm:ss")} ] Press enter to continue . . .`));
+                
                         }else{
                             console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${firstSetPinResult.errors[0].message}`))
                         }
