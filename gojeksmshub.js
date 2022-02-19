@@ -444,7 +444,8 @@ while(true){
                     console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.green(`Mencoba set pin.`));
                     await delay(5000)
                     const requestGetNewJwtResult = await requestGetNewJwt(verifOtpResult.data.refresh_token, sessionId, verifOtpResult.data.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
-                    
+                    const redeemVoucherResult = await redeemVoucher(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
+                        console.log(redeemVoucherResult);
                     //await delay(300000)
                     const firstSetPinResult = await firstSetPin(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                     console.log(firstSetPinResult);
