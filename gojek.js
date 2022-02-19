@@ -485,7 +485,7 @@ while(true){
                 const verifOtpResult = await veryfOtp(otpCode1, sendOtpResult.data.otp_token, sessionId, uniqueId);
                 if (verifOtpResult.success) {
                     console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.white(`Mencoba set pin.`));
-                    await delay(10000)
+                    await delay(300000)
                     const requestGetNewJwtResult = await requestGetNewJwt(verifOtpResult.data.refresh_token, sessionId, verifOtpResult.data.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                     const firstSetPinResult = await firstSetPin(sessionId, requestGetNewJwtResult.access_token, verifOtpResult.data.resource_owner_id.toString(), uniqueId);
                     if(firstSetPinResult.errors[0].code === 'GoPay-1603') {
@@ -533,9 +533,6 @@ while(true){
                     }
                 } else {
                     console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${sendOtpResult.errors[0].message}`))
-                    for(var i = 0; i < 2; i++){
-                        var done = await functionChangeCancel(idOrder)
-                        }  
                 }
 
             } else {
