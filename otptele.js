@@ -3,8 +3,6 @@ const moment = require('moment');
 const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
-require('dotenv').config()
-const sms = new SMSActivate(process.env.SMS_ACTIVATE_TOKEN);
 const delay = require('delay');
 const { text } = require('cheerio/lib/api/manipulation');
 
