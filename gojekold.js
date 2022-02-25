@@ -5,7 +5,22 @@ const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
 const delay = require('delay');
 const readline = require("readline-sync");
-var keyOtp = '110493U15e6ce6d84a90d493f6452f85c8661e3'
+const { get } = require('cheerio/lib/api/traversing');
+
+const keyOtp1 = readline.question(chalk.white(`\n[ - ] Choose your APIKEY : `));
+var keyOtp = keyOtp1.split("|")[0]; 
+
+const randstr = length =>
+    new Promise((resolve, reject) => {
+        var text = "";
+        var possible =
+            "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (var i = 0; i < length; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        resolve(text);
+    });
 
 const genUniqueId = length =>
     new Promise((resolve, reject) => {
@@ -31,7 +46,7 @@ const functionsendMessage = (text) => new Promise((resolve, reject) => {
 });
 
 const functionGetNumber = () => new Promise((resolve, reject) => {
-    fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=getNumber&api_key=110493U15e6ce6d84a90d493f6452f85c8661e3&service=ni&forward=0&owner=site&operator=telkomsel&country=6`, { 
+    fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=getNumber&service=ni&forward=0&owner=site&operator=telkomsel&country=6`, { 
         method: 'GET'
     })
     .then(res => res.text())
@@ -121,17 +136,32 @@ const sendOtp = (name, email, sessionId, phoneNumber, uniqueId) => new Promise((
 });
 
 (async () => {
-while(true){
+
     try {
+        var email1 = keyOtp1.split("|")[1]
         do {
             var getBalance = await functionGetBalance()
+            //console.log(getBalance)
         } while(!getBalance.includes('ACCESS_BALANCE'))
         
         const balance = getBalance.split(':')[1]
-        if(balance >= 4){
-           
+        if(balance >= 3.6){
+            while(true){
+                do {
+                    var getBalance1 = await functionGetBalance()
+                    //console.log(getBalance)
+                } while(!getBalance1.includes('ACCESS_BALANCE'))
+                const balance1 = getBalance.split(':')[1]
             do{
                 var getNumber = await functionGetNumber()
+                if(getNumber.includes('BANNED')){
+                    console.log(`\n[ - ]`, chalk.red(`Balance : ${balance1} - ${getNumber} - ${email1}\n`));
+                    return false
+                }else if(getNumber.includes('NO_NUMBERS')){
+                    console.log(`\n[ - ]`, chalk.red(`Balance : ${balance1} - ${getNumber} - ${email1}\n`));
+                    await delay(5000)
+                }
+                //console.log(`\n[ - ]`, chalk.red(`${getNumber} - ${email1}`));
             } while(!getNumber.includes('ACCESS_NUMBER'))
 
             const idOrder = getNumber.split(':')[1]
@@ -143,36 +173,38 @@ while(true){
             const { result } = indoName;
             const name = result[0].firstname.toLowerCase() + result[0].lastname.toLowerCase();
             const realName = `${result[0].firstname} ${result[0].lastname}`;
-            const email = `${name}@eonohocn.com`;
-            console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.white(`Register with number ${phoneNumber}`));
+            const rand = await randstr(2)
+            const email = `${name}${rand}@eonohocn.com`;
+            console.log(`[ - ]`, chalk.white(`Balance : ${balance1} - ${phoneNumber} - ${email1}`));
             const sessionId = uuidv4();
             const uniqueId = await genUniqueId(16);
             const sendOtpResult = await sendOtp(realName, email, sessionId, phoneNumber, uniqueId);
 
             if (sendOtpResult.success) {
-                console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`Akun belum terdaftar `))
+                console.log(`[ - ]`, chalk.red(`Account not registered yet `))
                 for(var i = 0; i < 2; i++){
                     var done = await functionChangeCancel(idOrder)
                     }
                     
                 } else if (sendOtpResult.errors[0].message === 'This email is already registered.'){
-                    console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`${sendOtpResult.errors[0].message}`))
+                    console.log(`[ - ]`, chalk.red(`${sendOtpResult.errors[0].message}`))
                     for(var i = 0; i < 2; i++){
                         var done = await functionChangeCancel(idOrder)
                         }
                     } else {
-                        console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.green(`${sendOtpResult.errors[0].message}`))
+                        console.log(`[ - ]`, chalk.green(`${sendOtpResult.errors[0].message}`))
                         const text = `${phoneNumber1}`
                         const sendMessageResult = await functionsendMessage(text)
+                        readline.question(chalk.yellow(`[ - ] Press enter to continue . . .`));
                     }
-
+                }
             } else {
-                console.log('You don\'t have enough money')
+                console.log(`\n[ - ]`, chalk.red(`Balance : ${balance} - You don\'t have enough money \n`))
+                
             }
         }catch(e){
             console.log(e)
-            console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.red(`Failed...`));
+            console.log(`[ - ] `, chalk.red(`Failed...`));
             console.log('')
         }
-}
 })();
