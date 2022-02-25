@@ -7,8 +7,8 @@ const delay = require('delay');
 const readline = require("readline-sync");
 const { get } = require('cheerio/lib/api/traversing');
 
-const keyOtp1 = readline.question(chalk.white(`\n[ - ] Choose your APIKEY : `));
-var keyOtp = keyOtp1.split("|")[0]; 
+var keyOtp = readline.question(chalk.white(`\n[ - ] Choose your APIKEY : `));
+
 
 const randstr = length =>
     new Promise((resolve, reject) => {
@@ -138,7 +138,6 @@ const sendOtp = (name, email, sessionId, phoneNumber, uniqueId) => new Promise((
 (async () => {
 
     try {
-        var email1 = keyOtp1.split("|")[1]
         do {
             var getBalance = await functionGetBalance()
             //console.log(getBalance)
