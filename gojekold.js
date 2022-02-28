@@ -14,7 +14,7 @@ let file = fs.readFileSync('accountsmshub.txt', 'utf8')
              .replace(/\r\n|\r|\n/g, " ")
              .split(" ");
 let data = file[`${pilih}`]
-let keyOtp = data.split("|")[1]
+let keyOtp = data.split("-----")[1]
 //let email1 = data.split("|")[1]
 
 
@@ -189,7 +189,7 @@ const sendOtp = (name, email, sessionId, phoneNumber, uniqueId) => new Promise((
 
 (async () => {
 try {
-    var email1 = data.split("|")[2]
+    var email1 = data.split("-----")[2]
 
     do{
         var getBalance = await functionGetBalance()
@@ -372,7 +372,8 @@ try {
             }
         }
     }else{
-        console.log(`\n[-]`, chalk.red(`Balance : ${balance}-You don\'t have enough money `))   
+        console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
+        console.log(`[-]`, chalk.red(`Balance : ${balance}-You don\'t have enough money `))   
     }
 }catch(e){
     console.log(e)
