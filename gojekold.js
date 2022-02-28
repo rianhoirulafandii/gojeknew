@@ -3,11 +3,19 @@ const moment = require('moment');
 const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 const delay = require('delay');
 const readline = require("readline-sync");
-const { get } = require('cheerio/lib/api/traversing');
 
-var keyOtp = readline.question(chalk.white(`\n[ - ] Choose your APIKEY : `));
+let pilih = readline.question(chalk.white(`\n[-] Please choose your apikey : `));
+//const operator = readline.question(chalk.white(`[-] Please choose your operator : `));
+const operator = 'axis'
+let file = fs.readFileSync('accountsmshub.txt', 'utf8')                    
+             .replace(/\r\n|\r|\n/g, " ")
+             .split(" ");
+let data = file[`${pilih}`]
+let keyOtp = data.split("|")[1]
+//let email1 = data.split("|")[1]
 
 
 const randstr = length =>
@@ -45,8 +53,30 @@ const functionsendMessage = (text) => new Promise((resolve, reject) => {
     .catch(err => reject(err))
 });
 
+const functionsendotpMessage = (text1) => new Promise((resolve, reject) => {
+    fetch(`https://api.telegram.org/bot5104006090:AAE42D5lgDA715SaLOXfQEhm0M6PhFUS1V8/sendMessage?chat_id=783007104&text=${text1}`, {
+    method: 'POST',
+    })
+    .then(res => res.json())
+    .then(res => {
+        resolve(res)
+    })
+    .catch(err => reject(err))
+});
+
 const functionGetNumber = () => new Promise((resolve, reject) => {
-    fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=getNumber&service=ni&forward=0&owner=site&operator=telkomsel&country=6`, { 
+    fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=getNumber&service=ni&forward=0&owner=site&operator=${operator}&country=6`, { 
+        method: 'GET'
+    })
+    .then(res => res.text())
+    .then(result => {
+        resolve(result);
+    })
+    .catch(err => reject(err))
+});
+
+const functionGetOtp = (idOrder) => new Promise((resolve, reject) => {
+    fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=getStatus&id=${idOrder}`, { 
         method: 'GET'
     })
     .then(res => res.text())
@@ -58,6 +88,28 @@ const functionGetNumber = () => new Promise((resolve, reject) => {
 
 const functionChangeCancel = (idOrder) => new Promise((resolve, reject) => {
     fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=setStatus&status=8&id=${idOrder}`, { 
+        method: 'GET'
+    })
+    .then(res => res.text())
+    .then(result => {
+        resolve(result);
+    })
+    .catch(err => reject(err))
+});
+
+const functionChangeStatus= (idOrder) => new Promise((resolve, reject) => {
+    fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=setStatus&status=3&id=${idOrder}`, { 
+        method: 'GET'
+    })
+    .then(res => res.text())
+    .then(result => {
+        resolve(result);
+    })
+    .catch(err => reject(err))
+});
+
+const functionChangeConfirm = (idOrder) => new Promise((resolve, reject) => {
+    fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=setStatus&status=6&id=${idOrder}`, { 
         method: 'GET'
     })
     .then(res => res.text())
@@ -136,74 +188,195 @@ const sendOtp = (name, email, sessionId, phoneNumber, uniqueId) => new Promise((
 });
 
 (async () => {
+try {
+    var email1 = data.split("|")[2]
 
-    try {
-        do {
-            var getBalance = await functionGetBalance()
-            //console.log(getBalance)
-        } while(!getBalance.includes('ACCESS_BALANCE'))
-        
-        const balance = getBalance.split(':')[1]
-        if(balance >= 3.6){
-            while(true){
-                do {
-                    var getBalance1 = await functionGetBalance()
-                    //console.log(getBalance)
-                } while(!getBalance1.includes('ACCESS_BALANCE'))
-                const balance1 = getBalance.split(':')[1]
+    do{
+        var getBalance = await functionGetBalance()
+    }while(!getBalance.includes('ACCESS_BALANCE'))
+
+    const balance = getBalance.split(':')[1]
+
+    if(balance >= 3.6){
+        while(true){
             do{
+                do{
+                    var getBalance1 = await functionGetBalance()
+                }while(!getBalance1.includes('ACCESS_BALANCE'))
+
+                const balance1 = getBalance1.split(':')[1]
                 var getNumber = await functionGetNumber()
                 if(getNumber.includes('BANNED')){
-                    console.log(`\n[ - ]`, chalk.red(`Balance : ${balance1} - ${getNumber} - ${email1}\n`));
+                    console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
+                    console.log(`[-]`, chalk.red(`Saldo : ${balance1} - ${getNumber}`));
                     return false
                 }else if(getNumber.includes('NO_NUMBERS')){
-                    console.log(`\n[ - ]`, chalk.red(`Balance : ${balance1} - ${getNumber} - ${email1}\n`));
+                    console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
+                    console.log(`[-]`, chalk.red(`Saldo : ${balance1} - ${getNumber}`));
                     await delay(5000)
                 }
-                //console.log(`\n[ - ]`, chalk.red(`${getNumber} - ${email1}`));
-            } while(!getNumber.includes('ACCESS_NUMBER'))
+            }while(!getNumber.includes('ACCESS_NUMBER'))
 
+            do {
+                var getBalance1 = await functionGetBalance()
+            }while(!getBalance1.includes('ACCESS_BALANCE'))
+
+            const balance1 = getBalance1.split(':')[1]
             const idOrder = getNumber.split(':')[1]
             const nomor = getNumber.split(':')[2]
             const phoneNumber = nomor;
             const phoneNumber1 = nomor.slice(2)
-            console.log("");
             const indoName = await generateIndoName();
             const { result } = indoName;
             const name = result[0].firstname.toLowerCase() + result[0].lastname.toLowerCase();
             const realName = `${result[0].firstname} ${result[0].lastname}`;
             const rand = await randstr(2)
             const email = `${name}${rand}@eonohocn.com`;
-            console.log(`[ - ]`, chalk.white(`Balance : ${balance1} - ${phoneNumber} - ${email1}`));
+            console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
+            console.log(`[-]`, chalk.white(`Saldo : ${balance1} - ${phoneNumber}`));
             const sessionId = uuidv4();
             const uniqueId = await genUniqueId(16);
             const sendOtpResult = await sendOtp(realName, email, sessionId, phoneNumber, uniqueId);
 
-            if (sendOtpResult.success) {
-                console.log(`[ - ]`, chalk.red(`Account not registered yet `))
+            if(sendOtpResult.success) {
+                console.log(`[-]`, chalk.red(`This number is not registered `))
                 for(var i = 0; i < 2; i++){
                     var done = await functionChangeCancel(idOrder)
+                }
+            }else if(sendOtpResult.errors[0].message === 'This email is already registered.'){
+                console.log(`[-]`, chalk.red(`${sendOtpResult.errors[0].message}`))
+                for(var i = 0; i < 2; i++){
+                    var done = await functionChangeCancel(idOrder)
+                }
+            }else{
+                console.log(`[-]`, chalk.white(`${sendOtpResult.errors[0].message}`))
+                const text = `${phoneNumber1}`
+                const sendMessageResult = await functionsendMessage(text)
+                readline.question(chalk.green(`[-] Press enter to continue . . .`));
+                console.log(`\n[-]`, chalk.white(`Trying to get a verification code`))
+                let loop = true;
+                let otpCode12 = "";
+                let otpCode1 = "";
+                let batas = 0;
+
+                while(loop){
+                    if(batas > 300){
+                        console.log(`[-]`, chalk.red(`Please use another number`))
+                        for(var i = 0; i < 2; i++){
+                            var done = await functionChangeCancel(idOrder)
+                        }   
+                        loop = false;
+                        return false;
                     }
-                    
-                } else if (sendOtpResult.errors[0].message === 'This email is already registered.'){
-                    console.log(`[ - ]`, chalk.red(`${sendOtpResult.errors[0].message}`))
-                    for(var i = 0; i < 2; i++){
-                        var done = await functionChangeCancel(idOrder)
+                    otpCode12 = await functionGetOtp(idOrder)
+                    if(otpCode12.includes('STATUS_WAIT_CODE')){
+                        batas++;
+                    }else{
+                        otpCode1 = otpCode12.split(":")[1]
+                        for(var i = 0; i < 2; i++){
+                            var done = await functionChangeStatus(idOrder)
                         }
-                    } else {
-                        console.log(`[ - ]`, chalk.green(`${sendOtpResult.errors[0].message}`))
-                        const text = `${phoneNumber1}`
-                        const sendMessageResult = await functionsendMessage(text)
-                        readline.question(chalk.yellow(`[ - ] Press enter to continue . . .`));
+                        loop = false;
                     }
                 }
-            } else {
-                console.log(`\n[ - ]`, chalk.red(`Balance : ${balance} - You don\'t have enough money \n`))
-                
+
+                console.log(`[-]`, chalk.green(`Your verification code ${otpCode1}`))
+                const text1 = `${phoneNumber1} : ${otpCode1}`
+                //const sendMessageotpResult = await functionsendotpMessage(text1)
+
+                const resend = readline.question(`[-] Resend the otp (y/n) : `);
+
+                if (resend === 'y' || resend === "Y"){
+                    console.log(`[-]`, chalk.white(`Trying to get a second verification code`))
+                    let loop1 = true;
+                    let otpCode123 = "";
+                    let batas1 = 0;
+                    let secondResend = "";
+
+                    while(loop1){
+                        if(batas1 > 300){
+                            console.log(`[-]`, chalk.red(`Gagal. Silahkan coba ulang.`))
+                            loop1 = false;
+                            return false;
+                        }
+                        otpCode123 = await functionGetOtp(idOrder)
+                        if(otpCode123.includes('STATUS_WAIT_CODE')){
+                            batas1++;
+                        }else{
+                            otpCode2 = otpCode123.split(":")[1]
+                            if(otpCode2.includes('Bukan kamu?')){
+                                otpCode22 = otpCode2.split("?")[0];
+                                console.log(`[-]`, chalk.green(`Your second verification code ${otpCode22}`))
+                                secondResend = 'y'
+                            }else{
+                                const text1 = `${phoneNumber1} : ${otpCode2}`
+                                //const sendMessageotpResult = await functionsendotpMessage(text1)
+                                console.log(`[-]`, chalk.green(`Your second otp code ${otpCode2}`))
+                                readline.question(chalk.yellow(`[-] Press enter to continue . . .`));
+                                secondResend = 'n';
+                            }
+                            for(var i = 0; i < 2; i++){
+                                var done = await functionChangeStatus(idOrder)
+                            }
+                            loop1 = false;
+                        }
+                    }   
+
+                    //const secondResend = readline.question(`[-] Resend the second otp again (y/n) : `);
+
+                    if (secondResend === 'y' || secondResend === "Y"){
+                        console.log(`[-]`, chalk.white(`Trying to get a third verification code`))
+                        let loop1 = true;
+                        let otpCode123 = "";
+                        let batas1 = 0;
+
+                        while(loop1){
+                            if(batas1 > 300){
+                                console.log(`[-]`, chalk.red(`Gagal. Silahkan coba ulang.`))
+                                loop1 = false;
+                                return false;
+                            }
+                            otpCode123 = await functionGetOtp(idOrder)
+                            if(otpCode123.includes('STATUS_WAIT_CODE')){
+                                batas1++;
+                            }else{
+                                otpCode3 = otpCode123.split(":")[1]
+                                for(var i = 0; i < 2; i++){
+                                    var done = await functionChangeStatus(idOrder)
+                                }
+                                loop1 = false;
+                            }
+                        }   
+        
+                        console.log(`[-]`, chalk.green(`Your third otp code ${otpCode3}`))
+                        const text1 = `${phoneNumber1} : ${otpCode3}`
+                        //const sendMessageotpResult = await functionsendotpMessage(text1)
+                        for(var i = 0; i < 2; i++){
+                            var done = await functionChangeConfirm(idOrder)
+                        }
+                                
+                        readline.question(chalk.yellow(`[-] Press enter to continue . . .`));
+
+                    }else{
+                        console.log(`[-]`, chalk.white(`Continue next accounts`))
+                        for(var i = 0; i < 2; i++){
+                            var done = await functionChangeConfirm(idOrder)
+                        }
+                    }   
+                }else{
+                    console.log(`[-]`, chalk.white(`Continue next accounts`))
+                    for(var i = 0; i < 2; i++){
+                        var done = await functionChangeConfirm(idOrder)
+                    }
+                }
             }
-        }catch(e){
-            console.log(e)
-            console.log(`[ - ] `, chalk.red(`Failed...`));
-            console.log('')
         }
+    }else{
+        console.log(`\n[-]`, chalk.red(`Balance : ${balance}-You don\'t have enough money `))   
+    }
+}catch(e){
+    console.log(e)
+    console.log(`[-] `, chalk.red(`Failed...`));
+    console.log('')
+}
 })();
