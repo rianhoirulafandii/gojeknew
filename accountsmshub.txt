@@ -1,44 +1,31 @@
-0-----110493U15e6ce6d84a90d493f6452f85c8661e3-----nadiayusuf41@gmail.com-----SALDO-----242.99-----BANNED:2022-02-28-----05:21:51.0
+0-----110493U15e6ce6d84a90d493f6452f85c8661e3-----nadiayusuf41@gmail.com-----SALDO-----210.59-----BANNED:2022-03-01-----23:09:02.0
+1-----118644U36ff1d835c55164305d991fdcfc28939-----gojekinaja1@midiharmonica.com-----SALDO-----18.41-----BANNED------08:30
+2-----118645U0204cb8c7f24c68be8b1e9ff0a456ca4-----gojekinaja2@midiharmonica.com-----SALDO-----25.63-----BANNED
+3-----118646U469c6743dd051b98540ce65722fb37ea-----gojekinaja3@midiharmonica.com-----SALDO-----18.35-----BANNED
+4-----118647Ue4ecd21a06bace5ef560e76bdc3619cd-----gojekinaja4@midiharmonica.com-----SALDO-----18.44-----BANNED
+5-----118648U6a75bd0d768996f9cf2712180a316ca2-----gojekinaja5@midiharmonica.com-----SALDO-----25.76-----BANNED
+6-----118649Uc0e47205d79df372b423eda2adf80282-----gojekinaja6@midiharmonica.com-----SALDO-----25.87-----BANNED
+7-----118650U91cb8732779ce9f053fcc9ef57c7f8c3-----gojekinaja7@midiharmonica.com-----SALDO-----22.23-----BANNED
+8-----118651U974507fdd636c31e657e992313a7e895-----gojekinaja8@midiharmonica.com-----SALDO-----25.65-----
+9-----118652U4aa7b043c5d29c3dff0b684a341c4d57-----gojekinaja9@midiharmonica.com-----SALDO-----??.??-----
+10-----118653U0504256c76241cedf9b6e4824096ade2-----gojekinaja10@midiharmonica.com-----SALDO-----??.??-----
+11-----118657U12f181bfba3c6d7bf02b3f84c5464e05-----gojekinaja11@midiharmonica.com-----SALDO-----22.08-----
+12-----118658U948f893ac5d4be4503266a3761a8eff9-----gojekinaja12@midiharmonica.com-----SALDO-----29.26-----
+13-----118659U08e0cfacab3d80fbb41fe34e53d6c423-----gojekinaja13@midiharmonica.com-----SALDO-----25.88-----
+14-----118660Uc7ada4b77d5f798d178741cb6b7e46cf-----gojekinaja14@midiharmonica.com-----SALDO-----25.95-----
+15-----118661U94436d21b3e937017ba5a6df58e2102a-----gojekinaja15@midiharmonica.com-----SALDO-----29.63-----
+16-----118662U1da74b789340e8034f8e884351f7bb11-----gojekinaja16@midiharmonica.com-----SALDO-----
+17-----118663U0b8b1c14a5570ae8a29c5e991b377b9e-----gojekinaja17@midiharmonica.com-----SALDO-----
+18-----118664Ud885eb7a60c7c0453df134803302e586-----gojekinaja18@midiharmonica.com-----SALDO-----
+19-----118665U6d07eb9dbc06c5e4c66134ba039842c8-----gojekinaja19@midiharmonica.com-----SALDO-----
+20-----118666Ue11eac4db262d98e8d8a6a0a8a95e09d-----gojekinaja20@midiharmonica.com-----SALDO-----
+21-----118162U8ac577af9ccf4bf1ba8b84602ff8af33-----skwsszee@midiharmonica.com-----SALDO-16.08-----BANNED-00:12
+22-----118165Ub4498090a50ebbf365dbbff6c53f2a7c-----yrsimnwipckpit@midiharmonica.com-----SALDO-4.70-----BANNED
+23-----118447Ubd4a7e24443d5299781c6b92942d3596-----smshub30@oleng.my.id-----SALDO-----14.71-----BANNED
+24-----118443U00bfe87079240d518049475bd001d1ff-----smshub26@oleng.my.id-----SALDO-----3.85-----BANNED
 
 
 
-
-
-
-7-----118220U42994cbfb8d2a5ebe2d6f37e5f354a55-----smshub7@oleng.my.id-----SALDO-----7.67-----BANNED
-8-----118223U9cc86e1158b03971f5e67caa4d186dc8-----smshub8@oleng.my.id-----SALDO-----11.25-----BANNED
-9-----118224Ue07299f6ca5ef39ff7ee583a2261ce44-----smshub9@oleng.my.id-----SALDO-----14.87-----BANNED
-10-----118274U3abe41ee54e4de3f1741e0a91c131d8d-----smshub10@oleng.my.id-----SALDO-----12.28-----BANNED
-11-----118276Ud2cd1e4c2772629e77b7fd25b8f32271-----smshub11@oleng.my.id-----SALDO-----0.48------ABIS
-12-----118281U256dd42e17d3602f77ac27b95239e74b-----smshub12@oleng.my.id-----SALDO-----7.72-----BANNED
-13-----118282Ud9e6f57a28b69bed2f9c10692a953558-----smshub13@oleng.my.id-----SALDO-----0.49-----ABIS
-14-----118296Ub77aeda92a3ec5b9d59e9a33dd96a680-----smshub14@oleng.my.id-----SALDO-----0.64-----ABIS
-15-----118298U2727cd9380e554cd92ae5888c8eba59b-----smshub15@oleng.my.id-----SALDO-----0.68-----ABIS
-16-----118299U9a82e71bc7e5f85155478577caa5d283-----smshub16@oleng.my.id-----SALDO-----14.87-----
-17-----118300Ubfd1a7ae6c7fdea9630fc6158dd22cf5-----smshub17@oleng.my.id-----SALDO-----10.89-----
-18-----118406U5f3d89f4a1eb7a2d263ab53225b9188d-----smshub18@oleng.my.id-----SALDO-----25.60-----
-19-----118407U23d7aa834c8e5c2625657b35c8bf57df-----smshub19@oleng.my.id-----SALDO-----18.46-----
-20-----118408U23654d416cc7bff6d36bafd4b246e208-----smshub20@oleng.my.id-----SALDO-----0.50-----ABIS
-21-----118409Uff360342c1cc25bfea84af9dd7d630e1-----smshub21@oleng.my.id-----SALDO-----0.38-----ABIS
-22-----118410Ub367a7189f4061955702e756dd33a7fd-----smshub22@oleng.my.id-----SALDO-----21.98-----
-23-----118411U4df765186097cd4c8ff51950e17da470-----smshub23@oleng.my.id-----SALDO-----22.00-----
-24-----118412U4a80b6fc059eb4c9ef9ec21b48b7df92-----smshub24@oleng.my.id-----SALDO-----18.31-----
-25-----118413Ue4c18ab801985e9e4db9e7b129175514-----smshub25@oleng.my.id-----SALDO-----29.10-----
-26-----118443U00bfe87079240d518049475bd001d1ff-----smshub26@oleng.my.id-----SALDO-----
-27-----118444U4adb822c89c3085cd0e10e5ecf6151dc-----smshub27@oleng.my.id-----SALDO-----
-28-----118445U503576f15e02c915af85b5e61d371202-----smshub28@oleng.my.id-----SALDO-----
-29-----118446U6d6ff22d233047b9a05c0939de40ea4a-----smshub29@oleng.my.id-----SALDO-----
-30-----118447Ubd4a7e24443d5299781c6b92942d3596-----smshub30@oleng.my.id-----SALDO-----
-31----------smshub31@oleng.my.id-----SALDO-----
-23----------smshub32@oleng.my.id-----SALDO-----
-23----------smshub33@oleng.my.id-----SALDO-----
-23----------smshub34@oleng.my.id-----SALDO-----
-23----------smshub35@oleng.my.id-----SALDO-----
-23----------smshub36@oleng.my.id-----SALDO-----
-23----------smshub37@oleng.my.id-----SALDO-----
-23----------smshub38@oleng.my.id-----SALDO-----
-23----------smshub39@oleng.my.id-----SALDO-----
-23----------smshub40@oleng.my.id-----SALDO-----
 
 
 
