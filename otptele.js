@@ -4,46 +4,19 @@ const fetch = require('node-fetch');
 const SMSActivate = require('sms-activate');
 const { v4: uuidv4 } = require('uuid');
 const delay = require('delay');
+const fs = require('fs');
 const readline = require("readline-sync");
 
-async function ip() {
-    let fet = await fetch("https://httpbin.org/ip", {
-        method: "GET",
-        headers: {
-            'Connection': 'keep-alive',
-            'Accept': '/',
-            'X-Requested-With': 'XMLHttpRequest',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7'
-        }
-    }).then((res) => res.json()).then((response) => { return response.origin });
-    return fet;
-}
+let pilih = readline.question(chalk.white(`\n[-] Please choose your apikey : `));
+//const operator = readline.question(chalk.white(`[-] Please choose your operator : `));
+//const operator = 'axis'
+const operator = 'telkomsel'
 
-const randstr = length =>
-    new Promise((resolve, reject) => {
-        var text = "";
-        var possible =
-            "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        for (var i = 0; i < length; i++)
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-        resolve(text);
-    });
-
-const genUniqueId = length =>
-    new Promise((resolve, reject) => {
-        var text = "";
-        var possible =
-            "abcdefghijklmnopqrstuvwxyz1234567890";
-
-        for (var i = 0; i < length; i++)
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-        resolve(text);
-    });
+let file = fs.readFileSync('accountsmshub.txt', 'utf8')                    
+             .replace(/\r\n|\r|\n/g, " ")
+             .split(" ");
+let data = file[`${pilih}`]
+let keyOtp = data.split("-----")[1]
 
 const functionsendNumber = (phoneNumber) => new Promise((resolve, reject) => {
     fetch(`https://api.telegram.org/bot5104006090:AAE42D5lgDA715SaLOXfQEhm0M6PhFUS1V8/sendMessage?chat_id=783007104&text=${phoneNumber}`, {
@@ -78,10 +51,8 @@ const functionsendOtp2 = (text2) => new Promise((resolve, reject) => {
     .catch(err => reject(err))
 });
 
-var keyOtp = '110493U15e6ce6d84a90d493f6452f85c8661e3'
-
 const functionGetNumber = () => new Promise((resolve, reject) => {
-    fetch(`https://smshub.org/stubs/handler_api.php?api_key=${keyOtp}&action=getNumber&api_key=110493U15e6ce6d84a90d493f6452f85c8661e3&service=ni&forward=0&owner=site&operator=any&country=6`, { 
+    fetch(`https://smshub.org/stubs/handler_api.php?action=getNumber&api_key=${keyOtp}&service=ni&forward=0&owner=site&operator=telkomsel&country=6`, { 
         method: 'GET'
     })
     .then(res => res.text())
@@ -171,13 +142,14 @@ while(true){
            
             do{
                 var getNumber = await functionGetNumber()
+                //console.log(getNumber)
             } while(!getNumber.includes('ACCESS_NUMBER'))
 
             const idOrder = getNumber.split(':')[1]
             const nomor = getNumber.split(':')[2].slice(2)
             const phoneNumber = nomor;
             
-            console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.green(`phoneNumber 62${phoneNumber}`));
+            console.log(`[ ${moment().format("HH:mm:ss")} ] `, chalk.green(`62${phoneNumber}`));
             
             const sendNumberResult = await functionsendNumber(phoneNumber)
             //console.log(sendMessage)
@@ -227,7 +199,8 @@ while(true){
             readline.question(chalk.yellow(`[ ${moment().format("HH:mm:ss")} ] Press enter to continue . . .`));
 
             } else {
-                console.log('You don\'t have enough money')
+                console.log(`\n[ ${moment().format("HH:mm:ss")} ]`, chalk.red(`You don't have enough money`))
+                return false
             }
         }catch(e){
             console.log(e)
