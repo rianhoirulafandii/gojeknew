@@ -277,7 +277,6 @@ try {
                 }
 
                 console.log(`[-] Your verification code :`, chalk.green(`${otpCode1}`))
-                console.log(chalk.green(`${otpCode1}`))
                 const text1 = `${phoneNumber1} : ${otpCode1}`
                 const sendMessageotpResult = await functionsendotpMessage(text1)
 
