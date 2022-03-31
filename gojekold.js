@@ -10,7 +10,7 @@ const readline = require("readline-sync");
 let pilih = readline.question(chalk.white(`\n[-] Please choose your apikey : `));
 //const operator = readline.question(chalk.white(`[-] Please choose your operator : `));
 //const operator = 'axis'
-const operator = 'axis'
+const operator = 'telkomsel'
 
 let file = fs.readFileSync('accountsmshub.txt', 'utf8')                    
              .replace(/\r\n|\r|\n/g, " ")
@@ -196,7 +196,7 @@ try {
 
     do{
         var getBalance = await functionGetBalance()
-        //console.log(getBalance)
+        console.log(getBalance)
     }while(!getBalance.includes('ACCESS_BALANCE'))
 
     const balance = getBalance.split(':')[1]
@@ -244,30 +244,20 @@ try {
             const sendOtpResult = await sendOtp(realName, email, sessionId, phoneNumber, uniqueId);
 
             if(sendOtpResult.success) {
-                
-                //console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
-                //console.log(`[-] Saldo : ${balance1} -`, chalk.red(`${phoneNumber}`));
-                console.log(`\n[-]`, chalk.red(`${phoneNumber2}`));
+                console.log(`[-]`, chalk.red(`Saldo : ${balance1} - ${phoneNumber}`));
                 for(var i = 0; i < 2; i++){
                     var done = await functionChangeCancel(idOrder)
                 }
             }else if(sendOtpResult.errors[0].message === 'This email is already registered.'){
-                //console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
-                //console.log(`[-] Saldo : ${balance1} -`, chalk.red(`${phoneNumber}`));
-                console.log(`\n[-]`, chalk.red(`${phoneNumber2}`));
+                console.log(`[-]`, chalk.red(`Saldo : ${balance1} - ${phoneNumber}`));
                 for(var i = 0; i < 2; i++){
                     var done = await functionChangeCancel(idOrder)
                 }
             }else{
-                //console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
-                //console.log(`[-] Saldo : ${balance1} -`, chalk.green(`${phoneNumber}`));
-                console.log(`\n[-]`, chalk.green(`${phoneNumber2}`));
+                console.log(`[-]`, chalk.green(`Saldo : ${balance1} - ${phoneNumber}`));
                 const text = `${phoneNumber1}`
                 const sendMessageResult = await functionsendMessage(text)
-                //readline.question(chalk.green(`[-] Press enter to continue . . .`));
-                readline.question(chalk.yellow(`[-] Enter`));
-                //console.log(`\n[-]`, chalk.white(`Trying to get a verification code`))
-                console.log(`\n[-]`, chalk.white(`Search`))
+                console.log(`\n[-]`, chalk.white(`Trying to get a verification code`))
                 let loop = true;
                 let otpCode12 = "";
                 let otpCode1 = "";
@@ -275,11 +265,11 @@ try {
 
                 while(loop){
                     if(batas > 300){
-                        console.log(`[-]`, chalk.red(`Please use another number`))
+                        console.log(`[-]`, chalk.red(`Gagal. Silahkan coba ulang.`))
                         for(var i = 0; i < 2; i++){
                             var done = await functionChangeCancel(idOrder)
-                        }   
-                        loop = false;
+                        }
+                        loop1 = false;
                         lop = false;
                     }
                     otpCode12 = await functionGetOtp(idOrder)
@@ -294,17 +284,16 @@ try {
                     }
                 }
 
-                //console.log(`[-] Your verification code :`, chalk.green(`${otpCode1}`))
-                console.log(`[-]`, chalk.green(`${otpCode1}`))
+                console.log(`[-] Your verification code :`, chalk.green(`${otpCode1}`))
+                console.log(chalk.green(`${otpCode1}`))
                 const text1 = `${phoneNumber1} : ${otpCode1}`
-                //const sendMessageotpResult = await functionsendotpMessage(text1)
+                const sendMessageotpResult = await functionsendotpMessage(text1)
 
-                //const resend = readline.question(`[-] Resend the otp (y/n) : `);
-                const resend = readline.question(`[-] 1/0 : `);
+                const resend = readline.question(`[-] Resend the otp (y/n) : `);
 
                 if (resend === 'y' || resend === "1"){
-                    console.log(`[-]`, chalk.white(`Search`))
-                    //console.log(`[-]`, chalk.white(`Trying to get a second verification code`))
+                    console.log(chalk.white(` -----`))
+                    console.log(`[-]`, chalk.white(`Trying to get a second verification code`))
                     let loop1 = true;
                     let otpCode123 = "";
                     let batas1 = 0;
@@ -313,6 +302,9 @@ try {
                     while(loop1){
                         if(batas1 > 300){
                             console.log(`[-]`, chalk.red(`Gagal. Silahkan coba ulang.`))
+                            for(var i = 0; i < 2; i++){
+                                var done = await functionChangeCancel(idOrder)
+                            }
                             loop1 = false;
                             lop = false;
                         }
@@ -327,12 +319,11 @@ try {
                                 secondResend = 'y'
                             }else{
                                 const text1 = `${phoneNumber1} : ${otpCode2}`
-                                //const sendMessageotpResult = await functionsendotpMessage(text1)
-                                //console.log(`[-] Your second verification code :`, chalk.green(`${otpCode2}`))
-                                console.log(`[-]`, chalk.green(`${otpCode2}`))
-                                await fs.appendFileSync("accountgojekinaja.txt", `0${phoneNumber1}\n`, "utf-8");
-                                //readline.question(chalk.yellow(`[-] Press enter to continue . . .`));
-                                readline.question(chalk.yellow(`[-] Next`));
+                                const sendMessageotpResult = await functionsendotpMessage(text1)
+                                console.log(`[-] Your second verification code :`, chalk.green(`${otpCode2}`))
+                                console.log(chalk.green(`${otpCode2}`))
+                                //await fs.appendFileSync("accountgojekinaja.txt", `8980${phoneNumber1}\n`, "utf-8");
+                                readline.question(chalk.yellow(`[-] Press enter to continue . . .`));
                                 secondResend = 'n';
                             }
                             for(var i = 0; i < 2; i++){
@@ -353,6 +344,9 @@ try {
                         while(loop1){
                             if(batas1 > 300){
                                 console.log(`[-]`, chalk.red(`Gagal. Silahkan coba ulang.`))
+                                for(var i = 0; i < 2; i++){
+                                    var done = await functionChangeCancel(idOrder)
+                                }
                                 loop1 = false;
                                 lop = false;
                             }
@@ -368,26 +362,25 @@ try {
                             }
                         }   
         
-                        //console.log(`[-] Your second verification code :`, chalk.green(`${otpCode3}`))
-                        console.log(`[-]`, chalk.green(`${otpCode3}`))
-                        await fs.appendFileSync("accountgojekinaja.txt", `0${phoneNumber1}\n`, "utf-8");
+                        console.log(`[-] Your second verification code :`, chalk.green(`${otpCode3}`))
+                        //await fs.appendFileSync("accountgojekinaja.txt", `8980${phoneNumber1}\n`, "utf-8");
                         
                         const text1 = `${phoneNumber1} : ${otpCode3}`
-                        //const sendMessageotpResult = await functionsendotpMessage(text1)
+                        const sendMessageotpResult = await functionsendotpMessage(text1)
                         for(var i = 0; i < 2; i++){
                             var done = await functionChangeConfirm(idOrder)
                         }
                                 
-                        readline.question(chalk.yellow(`[-] Next`));
+                        readline.question(chalk.yellow(`Next`));
 
                     }else{
-                        console.log(`[-]`, chalk.white(`Next`))
+                        console.log(chalk.white(`Next`))
                         for(var i = 0; i < 2; i++){
                             var done = await functionChangeConfirm(idOrder)
                         }
                     }   
                 }else{
-                    console.log(`[-]`, chalk.white(`Next`))
+                    console.log(chalk.white(`Next`))
                     for(var i = 0; i < 2; i++){
                         var done = await functionChangeConfirm(idOrder)
                     }
