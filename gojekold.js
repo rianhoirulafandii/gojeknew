@@ -196,7 +196,7 @@ try {
 
     do{
         var getBalance = await functionGetBalance()
-        console.log(getBalance)
+        //console.log(getBalance)
     }while(!getBalance.includes('ACCESS_BALANCE'))
 
     const balance = getBalance.split(':')[1]
@@ -244,20 +244,20 @@ try {
             const sendOtpResult = await sendOtp(realName, email, sessionId, phoneNumber, uniqueId);
 
             if(sendOtpResult.success) {
-                console.log(`[-]`, chalk.red(`Saldo : ${balance1} - ${phoneNumber}`));
+                console.log(`\n[-]`, chalk.red(`Saldo : ${balance1} - ${phoneNumber}`));
                 for(var i = 0; i < 2; i++){
                     var done = await functionChangeCancel(idOrder)
                 }
             }else if(sendOtpResult.errors[0].message === 'This email is already registered.'){
-                console.log(`[-]`, chalk.red(`Saldo : ${balance1} - ${phoneNumber}`));
+                console.log(`\n[-]`, chalk.red(`Saldo : ${balance1} - ${phoneNumber}`));
                 for(var i = 0; i < 2; i++){
                     var done = await functionChangeCancel(idOrder)
                 }
             }else{
-                console.log(`[-]`, chalk.green(`Saldo : ${balance1} - ${phoneNumber}`));
+                console.log(`\n[-]`, chalk.green(`Saldo : ${balance1} - ${phoneNumber}`));
                 const text = `${phoneNumber1}`
                 const sendMessageResult = await functionsendMessage(text)
-                console.log(`\n[-]`, chalk.white(`Trying to get a verification code`))
+                console.log(`[-]`, chalk.white(`Trying to get a verification code`))
                 let loop = true;
                 let otpCode12 = "";
                 let otpCode1 = "";
