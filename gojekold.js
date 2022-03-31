@@ -213,12 +213,12 @@ try {
                 const balance1 = getBalance1.split(':')[1]
                 var getNumber = await functionGetNumber()
                 if(getNumber.includes('BANNED')){
-                    console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
-                    console.log(`[-]`, chalk.red(`Saldo : ${balance1} - ${getNumber}`));
+                    //console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
+                    console.log(`[-]`, chalk.red(`Balance : ${balance1} - ${getNumber}`));
                     return false
                 }else if(getNumber.includes('NO_NUMBERS')){
-                    console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
-                    console.log(`[-]`, chalk.red(`Saldo : ${balance1} - ${getNumber}`));
+                    //console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
+                    console.log(`[-]`, chalk.red(`Balance : ${balance1} - ${getNumber}`));
                     await delay(5000)
                 }
             }while(!getNumber.includes('ACCESS_NUMBER'))
@@ -244,17 +244,17 @@ try {
             const sendOtpResult = await sendOtp(realName, email, sessionId, phoneNumber, uniqueId);
 
             if(sendOtpResult.success) {
-                console.log(`\n[-]`, chalk.red(`Saldo : ${balance1} - ${phoneNumber}`));
+                console.log(`\n[-]`, chalk.red(`Balance : ${balance1} - ${phoneNumber}`));
                 for(var i = 0; i < 2; i++){
                     var done = await functionChangeCancel(idOrder)
                 }
             }else if(sendOtpResult.errors[0].message === 'This email is already registered.'){
-                console.log(`\n[-]`, chalk.red(`Saldo : ${balance1} - ${phoneNumber}`));
+                console.log(`\n[-]`, chalk.red(`Balance : ${balance1} - ${phoneNumber}`));
                 for(var i = 0; i < 2; i++){
                     var done = await functionChangeCancel(idOrder)
                 }
             }else{
-                console.log(`\n[-]`, chalk.green(`Saldo : ${balance1} - ${phoneNumber}`));
+                console.log(`\n[-]`, chalk.green(`Balance : ${balance1} - ${phoneNumber}`));
                 const text = `${phoneNumber1}`
                 const sendMessageResult = await functionsendMessage(text)
                 console.log(`[-]`, chalk.white(`Trying to get a verification code`))
@@ -264,14 +264,6 @@ try {
                 let batas = 0;
 
                 while(loop){
-                    if(batas > 300){
-                        console.log(`[-]`, chalk.red(`Gagal. Silahkan coba ulang.`))
-                        for(var i = 0; i < 2; i++){
-                            var done = await functionChangeCancel(idOrder)
-                        }
-                        loop1 = false;
-                        lop = false;
-                    }
                     otpCode12 = await functionGetOtp(idOrder)
                     if(otpCode12.includes('STATUS_WAIT_CODE')){
                         batas++;
@@ -391,7 +383,6 @@ try {
             }
         }
     }else{
-        
         console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
         console.log(`[-]`, chalk.red(`Balance : ${balance} - You don\'t have enough money `))   
     }
