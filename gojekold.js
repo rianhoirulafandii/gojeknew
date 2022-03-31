@@ -214,11 +214,11 @@ try {
                 var getNumber = await functionGetNumber()
                 if(getNumber.includes('BANNED')){
                     //console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
-                    console.log(`[-]`, chalk.red(`Balance : ${balance1} - ${getNumber}`));
+                    console.log(`\n[-]`, chalk.red(`Balance : ${balance1} - ${getNumber}`));
                     return false
                 }else if(getNumber.includes('NO_NUMBERS')){
                     //console.log(`\n[-]`, chalk.white(`Email : ${email1}`));
-                    console.log(`[-]`, chalk.red(`Balance : ${balance1} - ${getNumber}`));
+                    console.log(`\n[-]`, chalk.red(`Balance : ${balance1} - ${getNumber}`));
                     await delay(5000)
                 }
             }while(!getNumber.includes('ACCESS_NUMBER'))
