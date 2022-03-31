@@ -284,7 +284,6 @@ try {
                 const resend = readline.question(`[-] Resend the otp (y/n) : `);
 
                 if (resend === 'y' || resend === "1"){
-                    console.log(chalk.white(` -----`))
                     console.log(`[-]`, chalk.white(`Trying to get a second verification code`))
                     let loop1 = true;
                     let otpCode123 = "";
@@ -363,7 +362,7 @@ try {
                             var done = await functionChangeConfirm(idOrder)
                         }
                                 
-                        readline.question(chalk.yellow(`Next`));
+                        readline.question(chalk.yellow(`[-] Press enter to continue . . .`));
 
                     }else{
                         console.log(chalk.white(`Next`))
